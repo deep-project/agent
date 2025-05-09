@@ -16,11 +16,11 @@ go get github.com/deep-project/agent
 ```go
 
 import (
-"fmt"
-"github.com/deep-project/agent"
-"github.com/deep-project/agent/adapters"
-"github.com/mark3labs/mcp-go/client"
-"github.com/sashabaranov/go-openai"
+    "fmt"
+    "github.com/deep-project/agent"
+    "github.com/deep-project/agent/adapters"
+    "github.com/mark3labs/mcp-go/client"
+    "github.com/sashabaranov/go-openai"
 )
 
 a := agent.New()
