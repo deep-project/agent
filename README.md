@@ -17,9 +17,7 @@ go get github.com/deep-project/agent
 
 import (
 	"fmt"
-	"os"
-
-	"github.com/deep-project/agent"
+  "github.com/deep-project/agent"
 	"github.com/deep-project/agent/adapters"
 	"github.com/mark3labs/mcp-go/client"
 	"github.com/sashabaranov/go-openai"
@@ -29,7 +27,7 @@ a := agent.New()
 
 // 赋予AI思维
 mindConfig := openai.DefaultConfig("TOKEN XXXXXXXXXXXXXXX")
-mindConfig.BaseURL = os.Getenv("https://api.openai.com/v1")
+mindConfig.BaseURL = "https://api.openai.com/v1"
 a.GrantMind(adapters.NewOpenAI(mindConfig, "gpt-4"))
 
 // 赋予AI记忆
