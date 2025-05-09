@@ -2,8 +2,9 @@
 
 ## 介绍 / Introduction
 
-本项目可以非常方面的创建一个AI Agent，并且赋予其思维(LLM)，赋予其记忆(Storage)，赋予其能力(Tools)。
+本项目使得创建一个AI智能体变得非常简单，能够赋予其思维（LLM）、记忆（Storage）和能力（Tools）。不仅可以接入当前流行的MCP服务，还可以自定义工具进行接入，极大提高了智能体创建的效率。
 
+This project makes it very easy to create an AI agent, providing it with thinking (LLM), memory (Storage), and capabilities (Tools). It not only supports integration with popular MCP services but also allows for custom tool integrations, greatly enhancing the efficiency of creating an intelligent agent.
 
 ## 安装 / Installation
 
@@ -59,3 +60,23 @@ db, _ := bbolt.Open("my.db", 0666, nil)
 a.GrantMemory(adapters.NewMemoryBoltDBAdapter(db))
 ```
 > 其他自定义的存储mysql sqlite pgsql都可以。只需要符合程序接口即可。
+
+#### 多种交互方式 / Multiple interaction methods
+```go
+// 简单的文字交流
+a.Talk(sessionID, "hello world!")
+
+// 输入文字，返回完整消息体
+a.Send(sessionID, "hello world!")
+
+// 通过消息体交互
+a.Interact(&agent.InteractInput{
+		SessionID:    sessionID,
+		MessagesLimit: 50,
+		Messages: []message.Message{
+			{Role: message.RoleUser, Contents: []message.Content{message.NewMessageWithContentText("hello world!")}},
+		}
+})
+
+```
+> 通过消息体交互，可以保持最大的灵活性，可以自定义角色，限制消息列表最大长度，发送多种类型的消息。

@@ -99,8 +99,8 @@ func (a *Agent) Talk(sessionID, text string) (sid string, res string, err error)
 // Send 返回完整消息结构体
 func (a *Agent) Send(sessionID, text string) (*InteractOutput, error) {
 	return a.Interact(&InteractInput{
-		SessionID:    sessionID,
-		MessageLimit: 50,
+		SessionID:     sessionID,
+		MessagesLimit: 50,
 		Messages: []message.Message{
 			{Role: message.RoleUser, Contents: []message.Content{message.NewMessageWithContentText(text)}},
 		},
@@ -131,7 +131,7 @@ func (a *Agent) Interact(input *InteractInput) (output *InteractOutput, err erro
 }
 
 func (a *Agent) call(input *InteractInput) (_ *mind.CallResponse, err error) {
-	messages, err := a.ListMessages(input.SessionID, input.MessageLimit)
+	messages, err := a.ListMessages(input.SessionID, input.MessagesLimit)
 	if err != nil {
 		return
 	}
@@ -182,9 +182,9 @@ func (a *Agent) execToolCall(toolCall *message.ToolCall) (*message.Message, erro
 }
 
 type InteractInput struct {
-	SessionID    string            `json:"session_id"`
-	Messages     []message.Message `json:"messages"`
-	MessageLimit int               `json:"message_limit"` // 限制对话上文消息数
+	SessionID     string            `json:"session_id"`
+	Messages      []message.Message `json:"messages"`
+	MessagesLimit int               `json:"messages_limit"` // 限制对话上文消息数
 }
 
 type InteractOutput struct {
