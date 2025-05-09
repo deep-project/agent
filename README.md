@@ -16,12 +16,11 @@ go get github.com/deep-project/agent
 ```go
 
 import (
-	"fmt"
-
-  "github.com/deep-project/agent"
-	"github.com/deep-project/agent/adapters"
-	"github.com/mark3labs/mcp-go/client"
-	"github.com/sashabaranov/go-openai"
+"fmt"
+"github.com/deep-project/agent"
+"github.com/deep-project/agent/adapters"
+"github.com/mark3labs/mcp-go/client"
+"github.com/sashabaranov/go-openai"
 )
 
 a := agent.New()
@@ -40,6 +39,7 @@ adapters.MCPAdapterInitializeClient(mcpClient)
 a.GrantAbility(adapters.NewMCPAdapter(&adapters.MCPAdapterOptions{Enable: true}, mcpClient))
 
 // 设置一个会话id
+// 如果为空，则自动生成一个uuid
 var sessionID = ""
 sessionID, msg, _ := a.Talk(sessionID, "hello world!")
 
