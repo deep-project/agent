@@ -1,0 +1,33 @@
+# 忽略 Go 构建输出
+/bin/
+/build/
+/dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# 忽略 Go module 依赖缓存（如果 vendoring）
+/vendor/
+
+# 忽略 IDE 和编辑器配置
+.vscode/
+.idea/
+*.swp
+*~
+
+# 忽略日志和调试输出
+*.log
+
+# 忽略环境变量文件
+.env
+.env.*
+*.yaml
+
+# 忽略操作系统生成的文件
+.DS_Store
+Thumbs.db
+*.db
