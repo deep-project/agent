@@ -15,6 +15,16 @@ go get github.com/deep-project/agent
 ## 使用 / Usage
 ```go
 
+import (
+	"fmt"
+	"os"
+
+	"github.com/deep-project/agent"
+	"github.com/deep-project/agent/adapters"
+	"github.com/mark3labs/mcp-go/client"
+	"github.com/sashabaranov/go-openai"
+)
+
 a := agent.New()
 
 // 赋予AI思维
@@ -80,3 +90,9 @@ a.Interact(&agent.InteractInput{
 
 ```
 > 通过消息体交互，可以保持最大的灵活性，可以自定义角色，限制消息列表最大长度，发送多种类型的消息。
+
+
+## 感谢 / Acknowledgements
+
+- [mcp-go](https://github.com/mark3labs/mcp-go) 
+- [go-openai](https://github.com/sashabaranov/go-openai)
