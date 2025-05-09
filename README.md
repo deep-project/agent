@@ -17,6 +17,7 @@ go get github.com/deep-project/agent
 
 import (
 	"fmt"
+
   "github.com/deep-project/agent"
 	"github.com/deep-project/agent/adapters"
 	"github.com/mark3labs/mcp-go/client"
