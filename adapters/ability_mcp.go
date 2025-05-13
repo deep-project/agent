@@ -9,7 +9,6 @@ import (
 
 	"github.com/deep-project/agent/pkg/ability"
 	"github.com/deep-project/agent/pkg/message"
-	"github.com/deep-project/agent/pkg/tool"
 
 	"github.com/mark3labs/mcp-go/client"
 	"github.com/mark3labs/mcp-go/mcp"
@@ -55,7 +54,7 @@ func (m *MCPAdapter) Description() string {
 	return m.options.Description
 }
 
-func (m *MCPAdapter) Tools() (res []tool.Tool, _ error) {
+func (m *MCPAdapter) Tools() (res []ability.Tool, _ error) {
 	toolsRequest := mcp.ListToolsRequest{}
 	list, err := m.client.ListTools(context.Background(), toolsRequest)
 	if err != nil {
@@ -98,12 +97,12 @@ func (m *MCPAdapter) CallTool(opt *ability.CallToolOptions) (*message.Message, e
 	}, nil
 }
 
-func (m *MCPAdapter) convertToAgentTool(mTool *mcp.Tool) (*tool.Tool, error) {
+func (m *MCPAdapter) convertToAgentTool(mTool *mcp.Tool) (*ability.Tool, error) {
 	parameters, err := m.convertToAgentToolParameters(mTool.InputSchema)
 	if err != nil {
 		return nil, err
 	}
-	return &tool.Tool{
+	return &ability.Tool{
 		Name:        mTool.Name,
 		Description: mTool.Description,
 		Enable:      true,
@@ -111,7 +110,7 @@ func (m *MCPAdapter) convertToAgentTool(mTool *mcp.Tool) (*tool.Tool, error) {
 	}, nil
 }
 
-func (m *MCPAdapter) convertToAgentToolParameters(inputSchema mcp.ToolInputSchema) (res []tool.Parameter, err error) {
+func (m *MCPAdapter) convertToAgentToolParameters(inputSchema mcp.ToolInputSchema) (res []ability.ToolParameter, err error) {
 	if inputSchema.Type != "object" || inputSchema.Properties == nil {
 		return nil, errors.New("The input schema is malformed, or no properties are defined.")
 	}
@@ -122,7 +121,7 @@ func (m *MCPAdapter) convertToAgentToolParameters(inputSchema mcp.ToolInputSchem
 	}
 
 	for name, prop := range inputSchema.Properties {
-		param := tool.Parameter{
+		param := ability.ToolParameter{
 			Name:     name,
 			Required: requiredSet[name],
 		}

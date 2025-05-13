@@ -1,14 +1,10 @@
 package ability
 
-import (
-	"github.com/deep-project/agent/pkg/tool"
-)
-
 type Item struct {
-	Name        string      // name
-	Description string      // 描述
-	Enable      bool        // 启用
-	tools       []tool.Tool // 工具列表，初始化item即初始化，可以减轻运行时初始化的性能消耗
+	Name        string // name
+	Description string // 描述
+	Enable      bool   // 启用
+	tools       []Tool // 工具列表，初始化item即初始化，可以减轻运行时初始化的性能消耗
 	handler     Handler
 }
 
@@ -29,7 +25,7 @@ func newItem(handler Handler) (*Item, error) {
 	}, nil
 }
 
-func (i *Item) Tools() []tool.Tool {
+func (i *Item) Tools() []Tool {
 	return i.tools
 }
 

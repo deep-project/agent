@@ -1,10 +1,10 @@
-package tool
+package ability
 
 type Tool struct {
 	Name        string
 	Enable      bool // 启用
 	Description string
-	Parameters  []Parameter // 参数
+	Parameters  []ToolParameter // 参数
 }
 
 // Parameters Convert To JSON Schema
@@ -22,7 +22,7 @@ func (t *Tool) ParametersJSONSchema() *JSONSchema {
 	return res
 }
 
-type Parameter struct {
+type ToolParameter struct {
 	Name        string   `json:"name"`                  // 属性名
 	Type        string   `json:"type,omitempty"`        // 类型
 	Description string   `json:"description,omitempty"` // 描述

@@ -1,8 +1,8 @@
 package mind
 
 import (
+	"github.com/deep-project/agent/pkg/ability"
 	"github.com/deep-project/agent/pkg/message"
-	"github.com/deep-project/agent/pkg/tool"
 )
 
 type Handler interface {
@@ -40,5 +40,5 @@ type CallResponse struct {
 // Tool mind所需的tool结构需带唯一id
 type Tool struct {
 	ID string
-	*tool.Tool
+	*ability.Tool
 }
