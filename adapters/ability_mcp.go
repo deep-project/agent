@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/deep-project/agent/pkg/ability"
 	"github.com/deep-project/agent/pkg/message"
 	"github.com/deep-project/agent/pkg/tool"
 
@@ -74,10 +75,12 @@ func (m *MCPAdapter) Tools() (res []tool.Tool, _ error) {
 	return
 }
 
-func (m *MCPAdapter) CallTool(name string, args *message.ToolCallArguments) (*message.Message, error) {
+func (m *MCPAdapter) CallTool(opt *ability.CallToolOptions) (*message.Message, error) {
 	listDirRequest := mcp.CallToolRequest{Request: mcp.Request{Method: "tools/call"}}
-	listDirRequest.Params.Name = name
-	listDirRequest.Params.Arguments = args.Map()
+	listDirRequest.Params.Name = opt.Name
+	if opt.Args != nil {
+		listDirRequest.Params.Arguments = opt.Args.Map()
+	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), m.options.Timeout)
 	defer cancel() // 确保退出前释放资源

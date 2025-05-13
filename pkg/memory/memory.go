@@ -1,10 +1,12 @@
 package memory
 
 import (
+	"github.com/deep-project/agent/pkg/ability"
 	"github.com/deep-project/agent/pkg/message"
 )
 
 type Handler interface {
+	GetMeta(sessionID string) (ability.Meta, error)
 	AddMessage(sessionID string, msg *message.Message) error
 	ListMessages(sessionID string, limit int) ([]message.Message, error)
 	HasMessageSession(sessionID string) (bool, error) // 消息对话是否存在
@@ -20,6 +22,13 @@ func (m *Memory) SetHandler(handler Handler) error {
 	}
 	m.handler = handler
 	return nil
+}
+
+func (m *Memory) GetMeta(sessionID string) (ability.Meta, error) {
+	if m.handler == nil {
+		return nil, ErrMemoryHandlerNotDefined
+	}
+	return m.handler.GetMeta(sessionID)
 }
 
 func (m *Memory) AddMessages(sessionID string, messages []message.Message) (err error) {

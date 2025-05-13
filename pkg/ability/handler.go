@@ -10,5 +10,17 @@ type Handler interface {
 	Description() string
 	Enable() bool
 	Tools() ([]tool.Tool, error)
-	CallTool(name string, args *message.ToolCallArguments) (*message.Message, error)
+	CallTool(opt *CallToolOptions) (*message.Message, error)
+}
+
+type CallToolOptions struct {
+	Name string
+	Args *message.ToolCallArguments
+	Meta Meta
+}
+
+type Meta map[string]any
+
+func NewMeta() Meta {
+	return make(map[string]any)
 }

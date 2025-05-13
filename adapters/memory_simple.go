@@ -3,6 +3,7 @@ package adapters
 import (
 	"sync"
 
+	"github.com/deep-project/agent/pkg/ability"
 	"github.com/deep-project/agent/pkg/message"
 )
 
@@ -18,6 +19,10 @@ func NewMemorySimpleAdapter(maxSize int) *MemorySimpleAdapter {
 		MaxSize: maxSize,
 		store:   make(map[string][]message.Message),
 	}
+}
+
+func (m *MemorySimpleAdapter) GetMeta(sessionID string) (ability.Meta, error) {
+	return ability.NewMeta(), nil
 }
 
 func (m *MemorySimpleAdapter) HasMessageSession(sessionID string) (bool, error) {

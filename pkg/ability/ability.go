@@ -34,7 +34,7 @@ func (a *Ability) Items() []Item {
 	return a.items
 }
 
-func (a *Ability) Call(index int, toolname string, args *message.ToolCallArguments) (_ *message.Message, err error) {
+func (a *Ability) Call(index int, toolName string, args *message.ToolCallArguments, meta Meta) (_ *message.Message, err error) {
 	item, err := a.getItem(index)
 	if err != nil {
 		return
@@ -42,7 +42,7 @@ func (a *Ability) Call(index int, toolname string, args *message.ToolCallArgumen
 	if item.handler == nil {
 		return nil, ErrAbilityHandlerNotDefined
 	}
-	return item.handler.CallTool(toolname, args)
+	return item.handler.CallTool(&CallToolOptions{Name: toolName, Args: args, Meta: meta})
 }
 
 func (a *Ability) getItem(index int) (*Item, error) {

@@ -152,9 +152,13 @@ func (a *Agent) call(input *InteractInput) (_ *mind.CallResponse, err error) {
 	if err = a.memory.AddMessage(input.SessionID, &resp.Message); err != nil {
 		return
 	}
+	meta, err := a.memory.GetMeta(input.SessionID)
+	if err != nil {
+		return
+	}
 	if len(resp.Message.ToolCalls) > 0 {
 		for _, toolCall := range resp.Message.ToolCalls {
-			toolCallMsg, err := a.execToolCall(&toolCall)
+			toolCallMsg, err := a.execToolCall(&toolCall, meta)
 			if err != nil {
 				continue
 			}
@@ -165,12 +169,12 @@ func (a *Agent) call(input *InteractInput) (_ *mind.CallResponse, err error) {
 	return resp, nil
 }
 
-func (a *Agent) execToolCall(toolCall *message.ToolCall) (*message.Message, error) {
+func (a *Agent) execToolCall(toolCall *message.ToolCall, meta ability.Meta) (*message.Message, error) {
 	itemIndex, toolName, err := helpers.ParseMindToolID(toolCall.ToolID)
 	if err != nil {
 		return nil, err
 	}
-	msg, err := a.ability.Call(itemIndex, toolName, &toolCall.Arguments)
+	msg, err := a.ability.Call(itemIndex, toolName, &toolCall.Arguments, meta)
 	if err != nil {
 		return nil, err
 	}

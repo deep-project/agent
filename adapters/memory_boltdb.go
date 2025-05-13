@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/deep-project/agent/pkg/ability"
 	"github.com/deep-project/agent/pkg/message"
 
 	"go.etcd.io/bbolt"
@@ -17,6 +18,11 @@ func NewMemoryBoltDBAdapter(client *bbolt.DB) *MemoryBoltDBAdapter {
 	return &MemoryBoltDBAdapter{client: client}
 }
 
+func (m *MemoryBoltDBAdapter) GetMeta(sessionID string) (ability.Meta, error) {
+	return ability.NewMeta(), nil
+}
+
+// message
 func (m *MemoryBoltDBAdapter) getMessageBucketName(sessionID string) []byte {
 	return []byte("messages-" + sessionID)
 }
