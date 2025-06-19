@@ -181,6 +181,9 @@ func (a *Agent) execToolCall(toolCall *message.ToolCall, meta ability.Meta) (*me
 	if msg == nil {
 		return nil, errors.New("response message is empty")
 	}
+	if msg.Role == "" {
+		msg.Role = message.RoleTool
+	}
 	msg.ToolCallID = toolCall.ID
 	return msg, nil
 }
