@@ -135,6 +135,12 @@ func (a *Agent) call(input *InteractInput) (_ *mind.CallResponse, err error) {
 	if err != nil {
 		return
 	}
+
+	// 如果经过裁切的消息以tool角色开头，则会导致AI执行错误
+	// 因为没有携带tool上一条消息，
+	// 所以需要过滤掉以tool角色开头的消息
+	messages = a.filterOutStartsWithToolRoleMessages(messages)
+
 	if len(messages) == 0 {
 		return nil, errors.New("messages cannot be empty.")
 	}
@@ -167,6 +173,20 @@ func (a *Agent) call(input *InteractInput) (_ *mind.CallResponse, err error) {
 		return a.call(input)
 	}
 	return resp, nil
+}
+
+func (a *Agent) filterOutStartsWithToolRoleMessages(msgs []message.Message) []message.Message {
+	var isFilter bool = true
+	var filtered []message.Message
+	for _, msg := range msgs {
+		if msg.Role != message.RoleTool {
+			isFilter = false
+		}
+		if isFilter == false {
+			filtered = append(filtered, msg)
+		}
+	}
+	return filtered
 }
 
 func (a *Agent) execToolCall(toolCall *message.ToolCall, meta ability.Meta) (*message.Message, error) {
