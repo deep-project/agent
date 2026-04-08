@@ -115,15 +115,9 @@ func (m *MCPAdapter) convertToAgentToolParameters(inputSchema mcp.ToolInputSchem
 		return nil, errors.New("The input schema is malformed, or no properties are defined.")
 	}
 
-	requiredSet := make(map[string]bool)
-	for _, name := range inputSchema.Required {
-		requiredSet[name] = true
-	}
-
 	for name, prop := range inputSchema.Properties {
 		param := ability.ToolParameter{
-			Name:     name,
-			Required: requiredSet[name],
+			Name: name,
 		}
 
 		// prop 是 map[string]interface{}
@@ -133,7 +127,7 @@ func (m *MCPAdapter) convertToAgentToolParameters(inputSchema mcp.ToolInputSchem
 		}
 
 		// 映射通用字段
-		if v, ok := propMap["type"].(string); ok {
+		if v, ok := propMap["type"].(ability.ToolParameterType); ok {
 			param.Type = v
 		}
 		if v, ok := propMap["title"].(string); ok {
